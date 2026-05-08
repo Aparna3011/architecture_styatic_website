@@ -78,6 +78,11 @@ export default function StudioIntro() {
                   alt="SVIT HUB Studio"
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null
+                    e.currentTarget.src = '/placeholder.jpg'
+                  }}
                 />
               </div>
 
@@ -94,6 +99,11 @@ export default function StudioIntro() {
                     alt="Project Detail"
                     className="w-full h-full object-cover"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null
+                      e.currentTarget.src = '/placeholder.jpg'
+                    }}
                   />
                 </div>
               </motion.div>

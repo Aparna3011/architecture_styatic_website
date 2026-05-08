@@ -6,6 +6,7 @@ import Layout from './components/layout/Layout'
 import LoadingScreen from './components/ui/LoadingScreen'
 import ScrollProgress from './components/ui/ScrollProgress'
 import CustomCursor from './components/ui/CustomCursor'
+import ScrollToTop from './components/shared/ScrollToTop'
 
 // Lazy load pages for code splitting
 const Home = lazy(() => import('./pages/Home'))
@@ -40,6 +41,7 @@ function AnimatedRoutes() {
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
+      <ScrollToTop />
     </AnimatePresence>
   )
 }

@@ -6,7 +6,8 @@ import Counter from '../components/ui/Counter'
 import { pageTransition, fadeInUp, staggerContainer } from '../utils/animations'
 
 export default function About() {
-  const { team, isLoading } = useTeam()
+  const { data, loading: isLoading } = useTeam()
+  const team = Array.isArray(data) ? data : []
 
   return (
     <motion.div
@@ -26,21 +27,21 @@ export default function About() {
           >
             <motion.span 
               variants={fadeInUp}
-              className="text-sm tracking-[0.3em] text-primary/60 uppercase mb-6 block"
+              className="font-mono text-xs tracking-[0.3em] text-stone uppercase mb-6 block"
             >
               About the Studio
             </motion.span>
             <motion.h1 
               variants={fadeInUp}
-              className="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-12"
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-12 text-basalt"
             >
               We design spaces
               <br />
-              <span className="italic text-primary/70">that inspire</span>
+              <span className="italic text-basalt/70">that inspire</span>
             </motion.h1>
             <motion.p 
               variants={fadeInUp}
-              className="text-lg md:text-xl text-primary/70 max-w-2xl leading-relaxed"
+              className="font-sans text-base md:text-lg text-stone max-w-2xl leading-relaxed"
             >
               {siteData.description}
             </motion.p>
@@ -55,7 +56,7 @@ export default function About() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2 }}
-            className="aspect-[16/9] bg-primary/5 overflow-hidden"
+            className="aspect-[16/9] bg-basalt/5 overflow-hidden"
           >
             <img
               src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80"
@@ -80,7 +81,7 @@ export default function About() {
                 <div className="text-5xl md:text-6xl font-light mb-2">
                   <Counter end={stat.value} suffix={stat.suffix} />
                 </div>
-                <p className="text-sm tracking-[0.2em] text-primary/60 uppercase">
+                <p className="font-mono text-xs tracking-[0.2em] text-stone uppercase">
                   {stat.label}
                 </p>
               </motion.div>
@@ -89,7 +90,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="px-6 lg:px-12 mb-32 bg-primary/5 py-32">
+      <section className="px-6 lg:px-12 mb-32 bg-basalt/5 py-32 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -98,13 +99,13 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <span className="text-sm tracking-[0.3em] text-primary/60 uppercase mb-6 block">
+              <span className="font-mono text-xs tracking-[0.3em] text-stone uppercase mb-6 block">
                 Our Story
               </span>
-              <h2 className="text-4xl md:text-5xl font-light mb-8 leading-tight">
+              <h2 className="font-display text-4xl md:text-5xl font-light mb-8 leading-tight text-basalt">
                 Founded on the belief that architecture shapes lives
               </h2>
-              <div className="space-y-6 text-primary/70 leading-relaxed">
+              <div className="space-y-6 text-stone leading-relaxed">
                 <p>
                   HAUS was founded in 2009 by Marcus Chen and Elena Voss, two architects 
                   who shared a vision of creating spaces that transcend mere functionality.
@@ -120,7 +121,7 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="aspect-[4/5] bg-primary/10 overflow-hidden"
+              className="aspect-[4/5] bg-basalt/10 overflow-hidden"
             >
               <img
                 src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=800&q=80"
@@ -140,19 +141,19 @@ export default function About() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <span className="text-sm tracking-[0.3em] text-primary/60 uppercase mb-6 block">
+            <span className="font-mono text-xs tracking-[0.3em] text-stone uppercase mb-6 block">
               Leadership
             </span>
-            <h2 className="text-4xl md:text-5xl font-light">The Team</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-light text-basalt">The Team</h2>
           </motion.div>
 
           {isLoading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[...Array(4)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="aspect-[3/4] bg-primary/10 mb-4" />
-                  <div className="h-6 bg-primary/10 w-3/4 mb-2" />
-                  <div className="h-4 bg-primary/10 w-1/2" />
+                  <div className="aspect-[3/4] bg-basalt/10 mb-4" />
+                  <div className="h-6 bg-basalt/10 w-3/4 mb-2" />
+                  <div className="h-4 bg-basalt/10 w-1/2" />
                 </div>
               ))}
             </div>
@@ -164,21 +165,21 @@ export default function About() {
               whileInView="animate"
               viewport={{ once: true }}
             >
-              {(team || []).slice(0, 4).map((member) => (
+              {team.slice(0, 4).map((member) => (
                 <motion.div
                   key={member.id}
                   variants={fadeInUp}
                   className="group cursor-pointer"
                 >
-                  <div className="aspect-[3/4] bg-primary/5 mb-4 overflow-hidden">
+                  <div className="aspect-[3/4] bg-basalt/5 mb-4 overflow-hidden">
                     <img
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <h3 className="text-xl font-light mb-1">{member.name}</h3>
-                  <p className="text-sm text-primary/60">{member.role}</p>
+                  <h3 className="font-display text-xl font-light mb-1 text-basalt">{member.name}</h3>
+                  <p className="text-sm text-stone">{member.role}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -194,10 +195,10 @@ export default function About() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <span className="text-sm tracking-[0.3em] text-primary/60 uppercase mb-6 block">
+            <span className="font-mono text-xs tracking-[0.3em] text-stone uppercase mb-6 block">
               What Guides Us
             </span>
-            <h2 className="text-4xl md:text-5xl font-light">Our Values</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-light text-basalt">Our Values</h2>
           </motion.div>
 
           <motion.div 
@@ -213,8 +214,8 @@ export default function About() {
               { title: 'Sustainability', description: 'Our designs minimize environmental impact while maximizing beauty and functionality.' }
             ].map((value, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <h3 className="text-2xl font-light mb-4">{value.title}</h3>
-                <p className="text-primary/70 leading-relaxed">{value.description}</p>
+                <h3 className="font-display text-2xl font-light mb-4 text-basalt">{value.title}</h3>
+                <p className="text-stone leading-relaxed">{value.description}</p>
               </motion.div>
             ))}
           </motion.div>

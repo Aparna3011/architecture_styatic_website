@@ -14,6 +14,7 @@ export default function Home() {
       animate="animate"
       exit="exit"
       variants={pageTransition}
+      className="min-h-screen"
     >
       <HeroSection />
       <StudioIntro />

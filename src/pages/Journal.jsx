@@ -11,15 +11,15 @@ import { formatDate } from "../utils/helpers";
 
 const categories = [
   "All",
-  "Design",
-  "Process",
-  "Awards",
-  "Culture",
-  "Sustainability",
+  "Studio Notes",
+  "Project Stories",
+  "Design Philosophy",
+  "Material Studies",
 ];
 
 export default function Journal() {
-  const { articles = [], isLoading } = useJournal();
+  const { data, loading: isLoading } = useJournal();
+  const articles = Array.isArray(data) ? data : [];
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredArticles = useMemo(() => {
@@ -40,31 +40,37 @@ export default function Journal() {
       variants={pageTransition}
       className="pt-32"
     >
+      <noscript>
+        <div className="px-6 lg:px-12">
+          <div className="max-w-7xl mx-auto py-12">
+            Journal requires JavaScript.
+          </div>
+        </div>
+      </noscript>
       <section className="px-6 lg:px-12 mb-16">
         <div className="max-w-7xl mx-auto">
           <motion.div
             variants={staggerContainer}
             initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
+            animate="animate"
           >
             <motion.span
               variants={fadeInUp}
-              className="text-sm tracking-[0.3em] text-primary/60 uppercase mb-6 block"
+              className="font-mono text-xs tracking-[0.3em] text-stone uppercase mb-6 block"
             >
               Insights
             </motion.span>
             <motion.h1
               variants={fadeInUp}
-              className="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-8"
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-8 text-basalt"
             >
               The
               <br />
-              <span className="italic text-primary/70">Journal</span>
+              <span className="italic text-basalt/70">Journal</span>
             </motion.h1>
             <motion.p
               variants={fadeInUp}
-              className="text-lg text-primary/70 max-w-xl"
+              className="font-sans text-base md:text-lg text-stone max-w-2xl"
             >
               Thoughts on architecture, design culture, and the creative process
               from our studio.
@@ -85,7 +91,11 @@ export default function Journal() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`text-sm tracking-[0.15em] uppercase transition-all duration-300 pb-1 border-b ${activeCategory === category ? "border-primary text-primary" : "border-transparent text-primary/50 hover:text-primary"}`}
+                className={`font-mono text-xs tracking-[0.2em] uppercase transition-all duration-300 pb-1 border-b ${
+                  activeCategory === category
+                    ? "border-basalt text-basalt"
+                    : "border-transparent text-stone hover:text-basalt"
+                }`}
               >
                 {category}
               </button>
@@ -99,31 +109,35 @@ export default function Journal() {
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
             >
               <Link
                 to={`/journal/${featuredArticle.slug}`}
                 className="group grid lg:grid-cols-2 gap-12"
               >
-                <div className="aspect-[4/3] bg-primary/5 overflow-hidden">
+                <div className="aspect-[4/3] bg-basalt/5 overflow-hidden">
                   <img
-                    src={featuredArticle.image}
+                    src={featuredArticle.heroImage}
                     alt={featuredArticle.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null
+                      e.currentTarget.src = "/placeholder.jpg"
+                    }}
                   />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <span className="text-xs tracking-[0.2em] text-primary/50 uppercase mb-4">
+                  <span className="font-mono text-xs tracking-[0.2em] text-stone uppercase mb-4">
                     Featured — {featuredArticle.category}
                   </span>
-                  <h2 className="text-3xl md:text-4xl font-light mb-4 group-hover:text-primary/70 transition-colors leading-tight">
+                  <h2 className="font-display text-3xl md:text-4xl font-light mb-4 group-hover:text-basalt/70 transition-colors leading-tight text-basalt">
                     {featuredArticle.title}
                   </h2>
-                  <p className="text-primary/60 mb-6 leading-relaxed">
+                  <p className="font-sans text-stone mb-6 leading-relaxed">
                     {featuredArticle.excerpt}
                   </p>
-                  <div className="flex items-center gap-4 text-sm text-primary/50">
+                  <div className="flex items-center gap-4 text-sm text-stone">
                     <span>{featuredArticle.author}</span>
                     <span>·</span>
                     <span>{formatDate(featuredArticle.date)}</span>
@@ -143,9 +157,9 @@ export default function Journal() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="aspect-[4/3] bg-primary/10 mb-4" />
-                  <div className="h-6 bg-primary/10 w-3/4 mb-2" />
-                  <div className="h-4 bg-primary/10 w-1/2" />
+                  <div className="aspect-[4/3] bg-basalt/10 mb-4" />
+                  <div className="h-6 bg-basalt/10 w-3/4 mb-2" />
+                  <div className="h-4 bg-basalt/10 w-1/2" />
                 </div>
               ))}
             </div>
@@ -164,24 +178,29 @@ export default function Journal() {
                   custom={index}
                 >
                   <Link to={`/journal/${article.slug}`} className="group block">
-                    <div className="aspect-[4/3] bg-primary/5 overflow-hidden mb-6">
+                    <div className="aspect-[4/3] bg-basalt/5 overflow-hidden mb-6">
                       <img
-                        src={article.image}
+                        src={article.heroImage}
                         alt={article.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null
+                          e.currentTarget.src = "/placeholder.jpg"
+                        }}
                       />
                     </div>
-                    <span className="text-xs tracking-[0.2em] text-primary/50 uppercase mb-3 block">
+                    <span className="font-mono text-xs tracking-[0.2em] text-stone uppercase mb-3 block">
                       {article.category}
                     </span>
-                    <h3 className="text-xl font-light mb-3 group-hover:text-primary/70 transition-colors leading-snug">
+                    <h3 className="font-display text-xl font-light mb-3 group-hover:text-basalt/70 transition-colors leading-snug text-basalt">
                       {article.title}
                     </h3>
-                    <p className="text-sm text-primary/60 mb-4 line-clamp-2">
+                    <p className="font-sans text-sm text-stone mb-4 line-clamp-2">
                       {article.excerpt}
                     </p>
-                    <div className="flex items-center gap-3 text-xs text-primary/50">
-                      <span>{formatDate(article.publishDate)}</span>
+                    <div className="flex items-center gap-3 text-xs text-stone">
+                      <span>{formatDate(article.date)}</span>
                       <span>·</span>
                       <span>{article.readTime}</span>
                     </div>

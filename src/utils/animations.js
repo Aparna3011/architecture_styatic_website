@@ -1,6 +1,6 @@
 export const fadeUpVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { 
+  initial: { opacity: 0, y: 40 },
+  animate: { 
     opacity: 1, 
     y: 0, 
     transition: { 
@@ -11,8 +11,8 @@ export const fadeUpVariants = {
 }
 
 export const staggerContainerVariants = {
-  hidden: {},
-  visible: { 
+  initial: {},
+  animate: { 
     transition: { 
       staggerChildren: 0.1 
     } 
